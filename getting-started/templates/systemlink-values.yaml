@@ -50,7 +50,7 @@ global:
   ## WARNING: Changing this value from true to false during an upgrade will delete existing secrets.
   # <ATTENTION> - Set to false if you do not want to manage secrets as part of the Helm installation.
   ##
-  deploySecrets: true
+  deploySecrets: false
   ## Customize telemetry data collection.
   ##
   telemetry:
@@ -595,6 +595,37 @@ dataframeservice:
             <description>Value can either be true or false, set to true to use SSL with a secure Minio server.</description>
             <value>false</value>
           </property>
+
+  ## Configure Kafka 
+  ##
+  kafkacluster:
+    ## Configure Kafka Exporter
+    ## Remove the following line to enable deployment of Kafka Exporter pod
+    kafkaExporter: null
+
+    zookeeper:
+      ## Configure metrics exported from Zookeeper
+      ## In addition to setting global.telemetry.enabled to true
+      ## Remove this section to deploy default metrics configuration
+      ## for Zookeeper nodes
+      metricsConfig: null
+
+    kafka:
+      ## Configure metrics exported from Kafka brokers
+      ## In addition to setting global.telemetry.enabled to true
+      ## Remove this section to deploy default metrics configuration
+      ## for kafka brokers.
+      metricsConfig: null
+
+      ## Configure the entity operator.
+      entityOperator:
+        topicOperator:
+          jvmOptions:
+            ## Configure minimum and maximum amount of memory
+            ## for the JVM heap size. Increase if the topic operator
+            ## keeps restarting due to out-of-memory errors.
+            -Xms: 256m
+            -Xmx: 512m
 
   ## Configure Kafka access
   ##
